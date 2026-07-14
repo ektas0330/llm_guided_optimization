@@ -4,7 +4,7 @@ Code for the paper "Programming Manufacturing Robots with Imperfect AI: LLMs as 
 
 Given part geometry and user objectives (e.g., prioritizing quality over time and cost), we cast print configuration selection as a diagnosis-driven optimization problem. In each iteration, a candidate configuration is evaluated to produce a scalar objective and diagnostics on printability and quality issues. An LLM prioritizes what issue to address next and proposes parameter-level changes. These proposals are converted into guidance for generating the next configuration in two forms: soft guidance that biases generation toward configurations consistent with the proposed changes and hard constraints that restrict the next step to modifying only the implicated parameters while keeping others fixed. The process repeats under this combined soft-guidance and hard-constraint scheme. The following subsections describe each module, and the following figure summarizes the overall approach.
 
-![Figure](pipeline.png)
+![Figure](pipeline_figure.png)
 
 ## Quick start
 
