@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Project page for Programming Manufacturing Robots with Imperfect AI: LLMs as Tuning Experts for FDM Print Configuration Selection.">
+  <meta name="theme-color" content="#162235">
+
+  <title>LLMs as Tuning Experts for FDM Print Configuration Selection</title>
+  <link rel="canonical" href="https://ektas0330.github.io/llm_guided_optimization/">
+  <link rel="stylesheet" href="./assets/styles.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LLMs as Tuning Experts for FDM Print Configuration Selection">
+  <meta property="og:description" content="A modular, evidence-driven loop that uses an LLM as a constrained source of tuning expertise for FDM print configuration selection.">
+  <meta property="og:url" content="https://ektas0330.github.io/llm_guided_optimization/">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Programming Manufacturing Robots with Imperfect AI: LLMs as Tuning Experts for FDM Print Configuration Selection",
+    "author": [
+      {"@type": "Person", "name": "Ekta U. Samani"},
+      {"@type": "Person", "name": "Christopher G. Atkeson"}
+    ],
+    "datePublished": "2026",
+    "url": "https://arxiv.org/abs/2603.22118",
+    "sameAs": "https://doi.org/10.48550/arXiv.2603.22118"
+  }
+  </script>
+  <script defer src="./assets/script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="#overview" aria-label="Project overview">
+        <span class="brand-mark" aria-hidden="true">FDM</span>
+        <span>LLM-guided optimization</span>
+      </a>
+
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation">
+        Menu
+      </button>
+
+      <nav class="nav-links" id="primary-navigation" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#method">Method</a>
+        <a href="#physical-prints">Physical prints</a>
+        <a href="#video">Video</a>
+        <a href="#citation">Citation</a>
+        <a class="button button-secondary nav-button" href="https://arxiv.org/abs/2603.22118" target="_blank" rel="noreferrer">Paper</a>
+        <a class="button button-primary nav-button" href="https://github.com/ektas0330/llm_guided_optimization" target="_blank" rel="noreferrer">Code</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="overview">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Programming manufacturing robots with imperfect AI</p>
+          <h1>LLMs as tuning experts for FDM print configuration selection</h1>
+          <p class="hero-deck">
+            Instead of relying on an AI model to output a full print configuration, we use an LLM as a constrained decision-maker inside an evidence-driven optimization loop. A toolpath-based evaluator returns a scalar objective and structured diagnostics, which the LLM uses to propose parameter edits that steer Bayesian optimization.
+          </p>
+          <div class="hero-footer">
+            <p class="authors">
+              <strong>Ekta U. Samani</strong> and <strong>Christopher G. Atkeson</strong><br>
+              Robotics Institute, Carnegie Mellon University
+            </p>
+            <div class="button-row">
+              <a class="button button-primary" href="https://arxiv.org/abs/2603.22118" target="_blank" rel="noreferrer">Read the paper</a>
+              <a class="button button-secondary" href="https://github.com/ektas0330/llm_guided_optimization" target="_blank" rel="noreferrer">View code and prompts</a>
+              <a class="button button-secondary" href="#citation">Citation</a>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="stat-strip" aria-label="Key results on 100 Thingi10k objects">
+        <article class="stat-card">
+          <strong class="stat-number">78%</strong>
+          <span class="stat-label">of objects: best configuration</span>
+        </article>
+        <article class="stat-card">
+          <strong class="stat-number">90%</strong>
+          <span class="stat-label">of objects: within 5% of best</span>
+        </article>
+        <article class="stat-card">
+          <strong class="stat-number">0%</strong>
+          <span class="stat-label">likely-to-fail cases</span>
+        </article>
+      </div>
+      <p class="stat-note">Results on 100 Thingi10k objects. “Best” is among the listed methods; likely-to-fail cases use the evaluator's feasibility-veto criterion.</p>
+    </section>
+
+    <section class="section section-alt" id="method">
+      <div class="section-inner">
+        <div class="section-heading">
+          <span class="kicker">Method</span>
+          <h2>A modular LLM-guided optimization loop</h2>
+          <p>
+            Given part geometry and user objectives, we cast print configuration selection as a diagnosis-driven optimization problem. Soft guidance biases selection toward configurations consistent with the proposed changes, while hard constraints restrict the next step to modifying only the implicated parameters.
+          </p>
+        </div>
+
+        <figure class="figure-card">
+          <button class="zoom-button" type="button" data-zoom-image="./assets/images/figure1_pipeline_color.png" data-zoom-alt="Expanded overview of the modular LLM-guided optimization loop for FDM print configuration selection.">
+            <img src="./assets/images/figure1_pipeline_color.png" alt="A modular loop from the current print configuration through an evaluator, LLM guidance generator, guidance compiler, and guided optimization, with evaluated configurations used to fit the surrogate model." width="4317" height="1372">
+          </button>
+          <figcaption>
+            Overview of the modular LLM-guided optimization loop for FDM 3D print configuration selection. An evaluator computes objective value <em>Obj(x)</em> and structured diagnostics, an LLM proposes corrective changes, and a compiler maps these changes to guidance (<em>V(x)</em>, <em>I</em>) used for optimization. Lighter boxes denote example intermediate outputs.
+          </figcaption>
+        </figure>
+
+        <div class="method-grid">
+          <article class="method-card">
+            <span class="method-index">1</span>
+            <h3>Evaluator</h3>
+            <p>Runs the slicer and returns a scalar score for optimization, feasibility vetoes, and issue-level penalties.</p>
+          </article>
+          <article class="method-card">
+            <span class="method-index">2</span>
+            <h3>LLM guidance generator</h3>
+            <p>Uses structured diagnostics and admissible actions to identify one primary issue and propose directional or categorical parameter changes.</p>
+          </article>
+          <article class="method-card">
+            <span class="method-index">3</span>
+            <h3>LLM guidance compiler</h3>
+            <p>Converts the selected actions into a soft-violation score <em>V(x)</em> and an implicated-parameter set <em>I</em>.</p>
+          </article>
+          <article class="method-card">
+            <span class="method-index">4</span>
+            <h3>Guided optimization</h3>
+            <p>Downweights candidates that contradict the guidance and freezes parameters outside <em>I</em> while optimizing over <em>I</em>.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="physical-prints">
+      <div class="section-inner">
+        <div class="section-heading">
+          <span class="kicker">Qualitative physical validation</span>
+          <h2>Qualitative validation with physical prints</h2>
+          <p>
+            All quantitative comparisons use our evaluator because a standard scoring metric is not available. For qualitative validation, we physically print a subset of objects using each method's recommended print configuration.
+          </p>
+        </div>
+
+        <figure class="figure-card physical-figure">
+          <button class="zoom-button" type="button" data-zoom-image="./assets/images/results.png" data-zoom-alt="Expanded qualitative comparison of toolpath previews and physical prints for three representative parts across four methods.">
+            <img src="./assets/images/results.png" alt="Toolpath previews and photographs for Parts A, B, and C using default print parameters, ChatGPT 5.2 Thinking, unguided optimization, and LLM-guided optimization." width="2081" height="1834">
+          </button>
+          <figcaption>
+            Qualitative comparison of toolpath previews and photos of 3D prints for three representative parts across methods. Our method uses GPT-5.2 (medium reasoning) guidance. Numbered callouts mark key print issues and configuration changes. Preview colors follow the legend.
+          </figcaption>
+        </figure>
+
+        <div class="validation-grid">
+          <article class="validation-card">
+            <span class="part-label">Part A</span>
+            <h3>Overhang curling</h3>
+            <p>The default and ChatGPT configurations leave the overhang unsupported and it curls, while our method adds support beneath it to avoid the defect.</p>
+          </article>
+          <article class="validation-card">
+            <span class="part-label">Part B</span>
+            <h3>Stringing and bonding</h3>
+            <p>The ChatGPT and unguided optimization configurations produce stringing between separated posts, whereas our method avoids this defect and improves bonding by choosing a lower layer height.</p>
+          </article>
+          <article class="validation-card">
+            <span class="part-label">Part C</span>
+            <h3>Delamination risk</h3>
+            <p>The default configuration is flagged for delamination risk, while our method chooses a different orientation and increases perimeters to strengthen the part.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section video-section" id="video">
+      <div class="section-inner">
+        <div class="section-heading">
+          <span class="kicker">Video</span>
+          <h2>Project overview</h2>
+        </div>
+
+        <div class="video-card">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/bz5DRAAvVhU"
+            title="Programming Manufacturing Robots with Imperfect AI: project overview"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt citation-section" id="citation">
+      <div class="section-inner">
+        <div class="section-heading">
+          <span class="kicker">Citation</span>
+          <h2>Cite this work</h2>
+        </div>
+
+        <article class="citation-card">
+<pre id="bibtex">@misc{samani2026programming,
+  title         = {Programming Manufacturing Robots with Imperfect AI:
+                   LLMs as Tuning Experts for FDM Print Configuration Selection},
+  author        = {Samani, Ekta U. and Atkeson, Christopher G.},
+  year          = {2026},
+  eprint        = {2603.22118},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  doi           = {10.48550/arXiv.2603.22118}
+}</pre>
+          <div class="copy-row">
+            <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+            <button class="button button-secondary" id="copy-citation" type="button">Copy BibTeX</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="image-dialog" id="image-dialog" aria-label="Expanded research figure">
+    <button class="dialog-close" type="button" aria-label="Close expanded figure">×</button>
+    <img src="" alt="">
+  </dialog>
+</body>
+</html>
